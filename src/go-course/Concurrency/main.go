@@ -2,29 +2,42 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"net/http"
+	"time"
 )
 
-var wg sync.WaitGroup
-
 func main() {
+	links := []string{
+		"http://google.com",
+		"http://facebook.com",
+		"http://stackoverflow.com",
+		"http://golang.org",
+		"http://amazon.com",
+	}
 
-	wg.Add(1)
-	go foo()
-	bar()
+	ch := make(chan string)
 
-	wg.Wait()
+	for _, link := range links {
+		go checkLink(link, ch)
+	}
+
+	for l := range ch {
+		go func(link string) {
+			time.Sleep(5 * time.Second)
+			checkLink(link, ch)
+		}(l)
+	}
+
 }
 
-func foo() {
-	for i := 0; i < 10; i++ {
-		fmt.Println("Foo:", i)
+func checkLink(link string, ch chan string) {
+	_, err := http.Get(link)
+	if err != nil {
+		fmt.Println(link, "might be down")
+		ch <- link
+		return
 	}
-	wg.Done()
-}
 
-func bar() {
-	for i := 0; i < 10; i++ {
-		fmt.Println("Bar:", i)
-	}
+	fmt.Println(link, "is working")
+	ch <- link
 }
