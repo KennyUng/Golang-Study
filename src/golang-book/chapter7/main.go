@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*
 func main() {
 	slice1 := []float64{98, 93, 77, 82, 83}
@@ -109,7 +111,6 @@ func half(x int) bool {
 */
 
 // Question 5
-/*
 func main() {
 	fibVal := fib(25)
 	fmt.Println(fibVal)
@@ -123,4 +124,3 @@ func fib(x int) int {
 	}
 	return fib(x-1) + fib(x-2)
 }
-*/

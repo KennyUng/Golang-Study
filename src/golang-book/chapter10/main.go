@@ -11,13 +11,13 @@ func main() {
 
 	go func() {
 		for {
-			c1 <- "Deez"
+			c1 <- "Ping"
 			time.Sleep(time.Second * 2)
 		}
 	}()
 	go func() {
 		for {
-			c2 <- "Nutz"
+			c2 <- "Pong"
 			time.Sleep(time.Second * 3)
 		}
 	}()
